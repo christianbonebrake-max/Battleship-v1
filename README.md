@@ -1,4 +1,4 @@
-# Battleship Ship (Human vs AI)
+# Battleship (Human vs AI)
 
 A simple terminal-based Battleship game in Python. Human vs AI with a Hunt/Target AI.
 
