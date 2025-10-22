@@ -55,8 +55,12 @@ def parse_coord(token: str) -> Optional[Coord]:
     token = token.strip().upper()
     m = re.fullmatch(r"([A-J])\s*(10|[1-9])", token)
     if not m:
-        return None
-    row_char, col_str = m.groups()
+        m = re.fullmatch(r"(10|[1-9])\s*([A-J])", token)
+        if not m:
+            return None
+        col_str, row_char = m.groups()
+    else:
+        row_char, col_str = m.groups()
     r = ord(row_char) - ord('A')
     c = int(col_str) - 1
     if 0 <= r < BOARD_SIZE and 0 <= c < BOARD_SIZE:
@@ -415,7 +419,11 @@ def main() -> None:
     while True:
         game_once()
         print()
-        ans = prompt("Good Game, Sebastian! Play Again? (y/n): ").strip().lower()
+        while True:
+            ans = prompt("Good Game, Sebastian! Play Again? (y/n): ").strip().lower()
+            if ans in ('y', 'n'):
+                break
+            print(RED + "Please enter 'y' or 'n'." + RESET)
         if ans != 'y':
             break
 
