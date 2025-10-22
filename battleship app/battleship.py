@@ -72,18 +72,30 @@ def parse_coord(token: str) -> Optional[Coord]:
 
 def parse_placement_input(s: str) -> Optional[Tuple[Coord, str]]:
     s = s.strip().upper()
-    m = re.fullmatch(r"([A-J]\s*(?:10|[1-9]))\s*([HV])", s)
-    if not m:
-        m2 = re.fullmatch(r"([A-J](?:10|[1-9]))([HV])", s)
-        if not m2:
-            return None
-        pos, orient = m2.groups()
-    else:
-        pos, orient = m.groups()
-    coord = parse_coord(pos)
-    if coord is None:
+    # 1) Extract exactly one orientation (H/V). Remove it from the string to avoid confusion with row letter.
+    orient_matches = list(re.finditer(r"[HV]", s))
+    if len(orient_matches) != 1:
         return None
-    return coord, orient
+    orient = orient_matches[0].group()
+    # Remove only the matched orientation character (by index), keep the rest intact.
+    i = orient_matches[0].start()
+    s_wo_orient = s[:i] + " " + s[i+1:]
+
+    # 2) From the remainder, extract exactly one row letter (A-J) and one column number (1-10), regardless of order.
+    num_matches = list(re.finditer(r"10|[1-9]", s_wo_orient))
+    row_matches = list(re.finditer(r"[A-J]", s_wo_orient))
+    if len(num_matches) != 1 or len(row_matches) != 1:
+        return None
+
+    col_str = num_matches[0].group()
+    row_char = row_matches[0].group()
+
+    # 3) Compute coordinate and validate bounds.
+    r = ord(row_char) - ord('A')
+    c = int(col_str) - 1
+    if 0 <= r < BOARD_SIZE and 0 <= c < BOARD_SIZE:
+        return (r, c), orient
+    return None
 
 
 class Ship:
