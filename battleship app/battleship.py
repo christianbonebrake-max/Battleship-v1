@@ -4,6 +4,8 @@ from mimetypes import init
 import random
 import re
 import sys
+import unicodedata
+import string
 from typing import Dict, List, Optional, Set, Tuple
 
 
@@ -264,6 +266,55 @@ def prompt(text: str) -> str:
     return s
 
 
+def _normalize_for_yes_no(s: str) -> List[str]:
+    s = s.strip().lower()
+    s = unicodedata.normalize('NFKD', s)
+    s = s.encode('ascii', 'ignore').decode('ascii')
+    trans = str.maketrans({ch: ' ' for ch in string.punctuation})
+    s = s.translate(trans)
+    tokens = s.split()
+    return tokens
+
+
+def parse_yes_no(s: str) -> Optional[bool]:
+    tokens = _normalize_for_yes_no(s)
+    if not tokens:
+        return None
+    affirm = {
+        'y', 'yes', 'yeah', 'yup', 'ya', 'yah', 'yea', 'yep', 'sure', 'ok', 'okay', 'k',
+        'affirmative', 'true', 't', '1', 'accept', 'go', 'start', 'continue',
+        'si', 'oui', 'ja', 'sim', 'hai', 'da', 'evet', 'aye', 's', 'shi', 'jes', 'tak'
+    }
+    neg = {
+        'n', 'no', 'nah', 'nope', 'negative', 'false', 'f', '0', 'cancel', 'stop', 'quit', 'exit',
+        'non', 'nein', 'nao', 'não', 'nai', 'nyet', 'hayir', 'tidak', 'niet', 'nie'
+    }
+    # If any token clearly indicates yes/no and there is no conflicting token, decide.
+    has_yes = any(tok in affirm for tok in tokens)
+    has_no = any(tok in neg for tok in tokens)
+    if has_yes and not has_no:
+        return True
+    if has_no and not has_yes:
+        return False
+    # Single-character beginnings like 'yesss', 'noooo'
+    if not has_yes and not has_no:
+        head = tokens[0]
+        if head.startswith('y'):
+            return True
+        if head.startswith('n'):
+            return False
+    return None
+
+
+def prompt_yes_no(message: str) -> bool:
+    while True:
+        ans_raw = prompt(message)
+        parsed = parse_yes_no(ans_raw)
+        if parsed is not None:
+            return parsed
+        print(RED + "Please answer yes or no." + RESET)
+
+
 def place_ships_manually(board: Board) -> None:
     clear_screen()
     print(GREEN + "Your Board (place your ships)" + RESET)
@@ -335,11 +386,10 @@ def game_once() -> None:
         print()
         try:
             global SHOW_AI_SHIPS
-            ans = prompt("Reveal AI ships for verification? (y/n): ").strip().lower()
-            SHOW_AI_SHIPS = (ans == 'y')
+            SHOW_AI_SHIPS = prompt_yes_no("Reveal AI ships for verification? (y/n): ")
             print()
-            use_auto = prompt("Auto-place your ships? (y/n): ").strip().lower()
-            if use_auto == 'y':
+            use_auto = prompt_yes_no("Auto-place your ships? (y/n): ")
+            if use_auto:
                 AIPlayer().place_ships_randomly(human_board)
             else:
                 place_ships_manually(human_board)
@@ -419,12 +469,7 @@ def main() -> None:
     while True:
         game_once()
         print()
-        while True:
-            ans = prompt("Good Game, Sebastian! Play Again? (y/n): ").strip().lower()
-            if ans in ('y', 'n'):
-                break
-            print(RED + "Please enter 'y' or 'n'." + RESET)
-        if ans != 'y':
+        if not prompt_yes_no("Good game, my friend! Play again? (y/n): "):
             break
 
 
