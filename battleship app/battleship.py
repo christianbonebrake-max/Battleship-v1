@@ -469,7 +469,7 @@ def main() -> None:
     while True:
         game_once()
         print()
-        if not prompt_yes_no("Good Game, Sebastian! Play Again? (y/n): "):
+        if not prompt_yes_no("Good game, my friend! Play again? (y/n): "):
             break
 
 
