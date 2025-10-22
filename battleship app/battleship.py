@@ -419,7 +419,11 @@ def main() -> None:
     while True:
         game_once()
         print()
-        ans = prompt("Good Game, Sebastian! Play Again? (y/n): ").strip().lower()
+        while True:
+            ans = prompt("Good Game, Sebastian! Play Again? (y/n): ").strip().lower()
+            if ans in ('y', 'n'):
+                break
+            print(RED + "Please enter 'y' or 'n'." + RESET)
         if ans != 'y':
             break
 
