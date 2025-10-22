@@ -1,4 +1,4 @@
-# Battleship CLI (Human vs AI)
+# Battleship Ship (Human vs AI)
 
 A simple terminal-based Battleship game in Python. Human vs AI with a Hunt/Target AI.
 
