@@ -398,8 +398,7 @@ def game_once() -> None:
         print()
         try:
             global SHOW_AI_SHIPS
-            SHOW_AI_SHIPS = prompt_yes_no("Reveal AI ships for verification? (y/n): ")
-            print()
+            SHOW_AI_SHIPS = False
             use_auto = prompt_yes_no("Auto-place your ships? (y/n): ")
             if use_auto:
                 AIPlayer().place_ships_randomly(human_board)
