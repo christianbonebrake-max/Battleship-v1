@@ -1,6 +1,3 @@
-from calendar import c
-from locale import ABDAY_4
-from mimetypes import init
 import random
 import re
 import sys
