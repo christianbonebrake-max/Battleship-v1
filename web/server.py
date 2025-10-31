@@ -43,11 +43,17 @@ def get_game() -> Dict[str, Any]:
 
 
 def serialize_board(board: game.Board, reveal_ships: bool) -> Dict[str, Any]:
+    # Compute hit cells that belong to ships that are sunk; this does not reveal unseen ship positions
+    sunk_hit_coords = set()
+    for s in board.ships.values():
+        if s.sunk:
+            sunk_hit_coords.update(s.hits)
     return {
         "size": game.BOARD_SIZE,
         "hits": [list(p) for p in sorted(board.hits)],
         "misses": [list(p) for p in sorted(board.misses)],
         "shots": [list(p) for p in sorted(board.shots)],
+        "sunk_hit_coords": [list(p) for p in sorted(sunk_hit_coords)],
         "ships": (
             [
                 {

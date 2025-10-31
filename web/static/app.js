@@ -48,12 +48,8 @@ function applyBoardState(container, data, revealShips) {
   const hits = new Set(data.hits.map((p) => key(p[0], p[1])));
   const misses = new Set(data.misses.map((p) => key(p[0], p[1])));
 
-  const sunkCoords = new Set();
-  if (revealShips) {
-    for (const s of data.ships || []) {
-      if (s.sunk) for (const p of s.coords) sunkCoords.add(key(p[0], p[1]));
-    }
-  }
+  // Sunk hit coords provided by server: only previously-hit cells that belong to sunk ships
+  const sunkCoords = new Set((data.sunk_hit_coords || []).map((p) => key(p[0], p[1])));
 
   const shipCoords = new Set();
   if (revealShips) {
