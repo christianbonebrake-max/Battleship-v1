@@ -143,9 +143,10 @@ function setup() {
   buildBoard(el('#aiBoard'), true);
 
   el('#newGameBtn').addEventListener('click', async () => {
-    const auto = el('#autoPlace').checked;
-    const manual = el('#manualPlace').checked;
+    const manual = el('#modeManual').checked;
+    const auto = !manual;
     await newGame(auto, manual);
+    log('Get ready for battle - General Bones awaits...');
     await refresh();
   });
 
@@ -194,7 +195,12 @@ function setup() {
   });
 
   // Start initial game automatically
-  newGame(true, false).then(refresh).catch((e) => log(`Startup error: ${e.message || e}`));
+  newGame(true, false)
+    .then(() => {
+      log('Get ready for battle - General Bones awaits...');
+      return refresh();
+    })
+    .catch((e) => log(`Startup error: ${e.message || e}`));
 }
 
 document.addEventListener('DOMContentLoaded', setup);

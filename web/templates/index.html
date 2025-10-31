@@ -12,12 +12,14 @@
       <h1>Battleship — vs General Bones</h1>
       <div class="controls">
         <button id="newGameBtn">New Game</button>
-        <label class="checkbox">
-          <input type="checkbox" id="autoPlace" checked /> Auto-place my ships
-        </label>
-        <label class="checkbox">
-          <input type="checkbox" id="manualPlace" /> Manual placement
-        </label>
+        <div class="radio-group" role="radiogroup" aria-label="Placement Mode">
+          <label class="checkbox">
+            <input type="radio" name="placementMode" id="modeAuto" value="auto" checked /> Auto placement
+          </label>
+          <label class="checkbox">
+            <input type="radio" name="placementMode" id="modeManual" value="manual" /> Manual placement
+          </label>
+        </div>
       </div>
     </header>
 

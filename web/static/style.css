@@ -18,8 +18,8 @@ button:hover { background: #222; }
 .cells { grid-column: span 10; display: grid; grid-template-columns: repeat(10, 32px); gap: 4px; }
 .cell { width: 32px; height: 32px; border-radius: 6px; background: #e9edf5; border: 1px solid #d6ddea; display: flex; align-items: center; justify-content: center; font-weight: 600; color: transparent; position: relative; }
 .cell:hover { filter: brightness(0.96); }
-.cell.hit { background: #ffdee0; border-color: #ffb3b8; }
-.cell.miss { background: #edf2ff; border-color: #c7d2fe; }
+.cell.hit { background: #ffb3b8; border-color: #ff6b72; }
+.cell.miss { background: #c7d2fe; border-color: #7a8cf6; }
 .cell.ship { background: #d6f5df; border-color: #a6e7b9; }
 .cell.sunk { background: #ffd6a6; border-color: #ffb96b; }
 .cell.clickable { cursor: pointer; }
