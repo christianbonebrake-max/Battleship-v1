@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Battleship Online</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Battleship — vs General Bones</h1>
+      <div class="controls">
+        <button id="newGameBtn">New Game</button>
+        <label class="checkbox">
+          <input type="checkbox" id="autoPlace" checked /> Auto-place my ships
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" id="manualPlace" /> Manual placement
+        </label>
+      </div>
+    </header>
+
+    <main>
+      <section class="boards">
+        <div class="board-panel">
+          <h2>Your Board</h2>
+          <div id="humanBoard" class="grid"></div>
+          <div class="summary" id="aiSunk"></div>
+        </div>
+        <div class="board-panel">
+          <h2>General Bones</h2>
+          <div id="aiBoard" class="grid click-grid" title="Click to fire"></div>
+          <div class="summary" id="humanSunk"></div>
+        </div>
+      </section>
+
+      <section class="placement" id="placementPanel" hidden>
+        <h3>Place Your Ships</h3>
+        <p id="placementPrompt">Next ship: </p>
+        <div class="placement-controls">
+          <label>Start Cell: <input id="placeStart" placeholder="e.g., A1" /></label>
+          <label>Orientation:
+            <select id="placeOrient">
+              <option value="H">Horizontal</option>
+              <option value="V">Vertical</option>
+            </select>
+          </label>
+          <button id="placeBtn">Place Ship</button>
+        </div>
+        <div class="hint">Tip: You can also click on your board to prefill the start cell, then press Place Ship.</div>
+      </section>
+
+      <section class="log" id="log"></section>
+    </main>
+
+    <footer>
+      <small>Tip: Click on the AI grid to fire. Coordinates display on hover.</small>
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+* { box-sizing: border-box; }
+body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; color: #111; background: #f7f7fb; }
+.container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+h1 { font-size: 24px; margin: 0; }
+.controls { display: flex; align-items: center; gap: 12px; }
+button { background: #111; color: white; border: 0; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
+button:hover { background: #222; }
+.checkbox { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; }
+
+.boards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.board-panel { background: white; border: 1px solid #e6e6ef; border-radius: 12px; padding: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+.board-panel h2 { margin: 0 0 8px; font-size: 18px; }
+.summary { margin-top: 8px; color: #666; font-size: 13px; min-height: 20px; }
+
+.grid { display: grid; grid-template-columns: repeat(11, 32px); gap: 4px; align-items: center; }
+.grid .label { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #666; }
+.cells { grid-column: span 10; display: grid; grid-template-columns: repeat(10, 32px); gap: 4px; }
+.cell { width: 32px; height: 32px; border-radius: 6px; background: #e9edf5; border: 1px solid #d6ddea; display: flex; align-items: center; justify-content: center; font-weight: 600; color: transparent; position: relative; }
+.cell:hover { filter: brightness(0.96); }
+.cell.hit { background: #ffdee0; border-color: #ffb3b8; }
+.cell.miss { background: #edf2ff; border-color: #c7d2fe; }
+.cell.ship { background: #d6f5df; border-color: #a6e7b9; }
+.cell.sunk { background: #ffd6a6; border-color: #ffb96b; }
+.cell.clickable { cursor: pointer; }
+
+.placement { margin-top: 16px; background: white; border: 1px solid #e6e6ef; border-radius: 12px; padding: 12px; }
+.placement-controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.placement .hint { margin-top: 8px; color: #666; font-size: 12px; }
+.disabled { pointer-events: none; opacity: 0.6; }
+
+.log { margin-top: 20px; background: white; border: 1px solid #e6e6ef; border-radius: 12px; padding: 12px; min-height: 48px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; color: #333; white-space: pre-wrap; }
+footer { margin-top: 16px; color: #777; }
